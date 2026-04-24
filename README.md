@@ -51,7 +51,6 @@ The app requests runtime permission on first launch via `permission_handler`.
 The app fetches the target coordinate from a static JSON file hosted on GitHub:
 
 ```
-https://raw.githubusercontent.com/mgcaguioa/detrack-target/main/target.json
 https://raw.githubusercontent.com/mgcaguioa/mock-data/main/detrack-target.json
 ```
 
@@ -113,6 +112,37 @@ lib/
 - **TrackingRepository** is the only layer that calls `haversineDistance()` — business logic stays out of the UI and provider
 - **MockApiService** always returns a usable target — network failure is handled gracefully with a fallback
 - All state mutations go through the provider; widgets only call provider methods
+
+---
+
+## Running Tests
+
+All tests live under the `test/` directory and mirror the `lib/` folder structure.
+
+```bash
+flutter test
+```
+
+To run a specific test file:
+
+```bash
+flutter test test/core/utils/haversine_test.dart
+```
+
+### Test Coverage
+
+| Test file                                              | What it covers                                      |
+|--------------------------------------------------------|-----------------------------------------------------|
+| `test/core/utils/haversine_test.dart`                  | Haversine formula accuracy and edge cases           |
+| `test/data/models/target_test.dart`                    | Target model JSON parsing                           |
+| `test/data/models/location_reading_test.dart`          | LocationReading model construction                  |
+| `test/data/sources/mock_api_service_test.dart`         | HTTP fetch and fallback behaviour                   |
+| `test/data/repositories/tracking_repository_test.dart` | Repository orchestration and distance computation   |
+| `test/providers/tracking_provider_test.dart`           | Start/stop tracking, timer management, filter logic |
+| `test/ui/screens/home_screen_test.dart`                | Home screen rendering and user interactions         |
+| `test/ui/widgets/reading_item_test.dart`               | Reading card display                                |
+
+No external test dependencies are required — the suite uses only the packages already listed below plus Flutter's built-in `flutter_test`.
 
 ---
 
